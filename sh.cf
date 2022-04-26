@@ -1,4 +1,4 @@
-# Spamhaus's SpamAssassin setup version 20210714
+# Spamhaus's SpamAssassin setup version 20220420
 
 
 ifplugin Mail::SpamAssassin::Plugin::SH
@@ -70,19 +70,19 @@ ifplugin Mail::SpamAssassin::Plugin::SH
     endif # if can
   endif   # Mail::SpamAssassin::Plugin::URIDNSBL
 
-  body		SH_BODYURI_REVERSE_SBL	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.2')
+  body		SH_BODYURI_REVERSE_SBL	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.2$')
   priority	SH_BODYURI_REVERSE_SBL	-100
   describe	SH_BODYURI_REVERSE_SBL The corresponding A record of an URI contained in the body is listed in SBL
 
-  body		SH_BODYURI_REVERSE_CSS	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.3')
+  body		SH_BODYURI_REVERSE_CSS	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.3$')
   priority	SH_BODYURI_REVERSE_CSS	-100
   describe	SH_BODYURI_REVERSE_CSS  The corresponding A record of an URI contained in the body is listed in CSS
 
-  body		SH_BODYURI_REVERSE_DROP	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.9')
+  body		SH_BODYURI_REVERSE_DROP	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.9$')
   priority	SH_BODYURI_REVERSE_DROP	-100
   describe	SH_BODYURI_REVERSE_DROP  The corresponding A record of an URI contained in the body is listed in DROP
 
-  body		SH_BODYURI_REVERSE_XBL	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.4')
+  body		SH_BODYURI_REVERSE_XBL	eval:check_sh_bodyuri_a('your_DQS_key.zen.dq.spamhaus.net', '^127\.0\.0\.4$')
   priority	SH_BODYURI_REVERSE_XBL	-100
   describe	SH_BODYURI_REVERSE_XBL  The corresponding A record of an URI contained in the body is listed in XBL
 
@@ -164,5 +164,9 @@ ifplugin Mail::SpamAssassin::Plugin::SH
 
   header RCVD_IN_ZEN_BLOCKED_OPENDNS    eval:check_rbl('zendqs-lastexternal', 'your_DQS_key.zen.dq.spamhaus.net.', '^127\.255\.255\.254$')
   header RCVD_IN_ZEN_BLOCKED    eval:check_rbl('zendqs-lastexternal', 'your_DQS_key.zen.dq.spamhaus.net.', '^127\.255\.255\.255$')
+
+  body		SH_DBL_ABUSED_FULLHOST	eval:check_sh_hostname('your_DQS_key.dbl.dq.spamhaus.net', '^127\.0\.1\.10[2-6]$')
+  priority	SH_DBL_ABUSED_FULLHOST	-100 
+  describe	SH_DBL_ABUSED_FULLHOST	A hostname found in the email body is listed in DBL as abused_legit
 
 endif # Mail::SpamAssassin::Plugin::SH 
